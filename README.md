@@ -71,4 +71,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ## 📜 License
 
-Go-Auth-App is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this project with proper attribution.
+auth-frontend is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this project with proper attribution.
