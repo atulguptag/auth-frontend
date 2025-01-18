@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import PageTitle from "./PageTitle";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { appConfig } from "./config";
 
 const Login = ({ setIsAuthenticated }) => {
+  const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isVisible, setIsVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/login", {
+      const response = await fetch(`${apiBaseUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -28,12 +31,15 @@ const Login = ({ setIsAuthenticated }) => {
 
       if (response.ok) {
         setIsAuthenticated(true);
+        toast.success("Login Successful!");
         navigate("/home");
+      } else if (response.status === 403) {
+        toast.warning("Please verify your email address before logging in");
       } else {
-        setError(data.error);
+        toast.error("Either Email or Password is Wrong!", data.error);
       }
     } catch (err) {
-      setError("Failed to connect to server");
+      toast.error("Failed to connect to server!");
     }
   };
 
@@ -45,14 +51,14 @@ const Login = ({ setIsAuthenticated }) => {
           <div className="col-md-5">
             <div className="card">
               <div className="card-body">
-                <h3 className="card-title text-center mb-4">Login</h3>
-                {error && <div className="alert alert-danger">{error}</div>}
+                <h3 className="card-title text-center mb-4">Welcome Back!</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label">Email</label>
                     <input
                       type="email"
                       className="form-control"
+                      autoComplete="email"
                       placeholder="Enter Your Email"
                       value={formData.email}
                       onChange={(e) =>
@@ -66,6 +72,7 @@ const Login = ({ setIsAuthenticated }) => {
                     <input
                       type={isVisible ? "text" : "password"}
                       className="form-control"
+                      autoComplete="password"
                       placeholder="Enter Your Password"
                       value={formData.password}
                       onChange={(e) =>

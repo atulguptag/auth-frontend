@@ -5,9 +5,15 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import ResetPassword from "./components/ResetPassword";
 import LoadingSpinner from "./components/LoadingSpinner";
+import JokeGenerator from "./components/JokeGenerator";
+import VerifyEmail from "./components/VerifyEmail";
+import { appConfig } from "./components/config";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 
 const App = () => {
+  const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -16,12 +22,12 @@ const App = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8080/home", {
+        const response = await fetch(`${apiBaseUrl}/home`, {
           credentials: "include",
         });
 
-        if (response.ok) {
-          setIsAuthenticated(true);
+        if (!response.ok) {
+          setIsAuthenticated(false);
         }
       } catch (err) {
         console.error("Auth check failed:", err);
@@ -31,16 +37,18 @@ const App = () => {
     };
 
     checkAuth();
-  }, []);
+  }, [apiBaseUrl]);
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:8080/logout", {
+      await fetch(`${apiBaseUrl}/logout`, {
         credentials: "include",
       });
       setIsAuthenticated(false);
-      navigate("/login");
+      toast.success("Logout Successful!");
+      navigate("/home");
     } catch (err) {
+      toast.error("Logout failed:");
       console.error("Logout failed:", err);
     }
   };
@@ -59,10 +67,9 @@ const App = () => {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="/home"
-          element={isAuthenticated ? <Home /> : <Navigate to="/login" />}
-        />
+        <Route path="/home" element={<Home />} />
+        <Route path="/verify" element={<VerifyEmail />} />
+        <Route path="/generate-jokes" element={<JokeGenerator />} />
         <Route path="/" element={<Navigate to="/home" />} />
       </Routes>
     </>

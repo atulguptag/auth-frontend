@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import PageTitle from "./PageTitle";
+import { appConfig } from "./config";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
+  const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isVisible, setIsVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/reset-password", {
+      const response = await fetch(`${apiBaseUrl}/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,13 +29,13 @@ const ResetPassword = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess("Password reset successfully! Redirecting to login...");
+        toast.success("Password reset successfully! Redirecting to login...");
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        setError(data.error);
+        toast.error("User does not exists!", data.error);
       }
     } catch (err) {
-      setError("Failed to connect to server");
+      toast.error("Failed to connect to server", err);
     }
   };
 
@@ -46,10 +48,6 @@ const ResetPassword = () => {
             <div className="card">
               <div className="card-body">
                 <h3 className="card-title text-center mb-4">Reset Password</h3>
-                {error && <div className="alert alert-danger">{error}</div>}
-                {success && (
-                  <div className="alert alert-success">{success}</div>
-                )}
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label">Email</label>

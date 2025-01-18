@@ -15,7 +15,7 @@ const LoadingSpinner = () => {
         backgroundColor: "rgba(255, 255, 255, 0.8)",
       }}
     >
-      <div className="d-flex flex-column align-items-center">
+      <div className="d-flex flex-column justify-content-center align-items-center">
         <div
           className="spinner-border text-primary"
           style={{ width: "3rem", height: "3rem" }}
@@ -23,7 +23,7 @@ const LoadingSpinner = () => {
         >
           <span className="visually-hidden">Loading...</span>
         </div>
-        <div className="mt-2">Loading...</div>
+        <div className="text-dark mt-2">Loading...</div>
       </div>
     </div>
   );

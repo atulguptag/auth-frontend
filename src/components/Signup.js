@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import PageTitle from "./PageTitle";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { appConfig } from "./config";
 
 const Signup = () => {
+  const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isVisible, setIsVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: "user",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch(`${apiBaseUrl}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,13 +30,13 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess("Account created successfully! Redirecting to login...");
+        toast.success("Register successfully! Please check your email.");
         setTimeout(() => navigate("/login"), 2000);
       } else {
-        setError(data.error);
+        toast.error("Email already exists!", data.error);
       }
     } catch (err) {
-      setError("Failed to connect to server");
+      toast.error("Failed to connect to server");
     }
   };
 
@@ -47,17 +48,16 @@ const Signup = () => {
           <div className="col-md-5">
             <div className="card">
               <div className="card-body">
-                <h3 className="card-title text-center mb-4">Sign Up</h3>
-                {error && <div className="alert alert-danger">{error}</div>}
-                {success && (
-                  <div className="alert alert-success">{success}</div>
-                )}
+                <h3 className="card-title text-center mb-4">
+                  Sign Up to Get Started
+                </h3>
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label">Name</label>
                     <input
                       type="text"
                       className="form-control"
+                      autoComplete="name"
                       placeholder="Enter Your Full Name"
                       value={formData.name}
                       onChange={(e) =>
@@ -71,6 +71,7 @@ const Signup = () => {
                     <input
                       type="email"
                       className="form-control"
+                      autoComplete="email"
                       placeholder="Enter Your Email"
                       value={formData.email}
                       onChange={(e) =>
@@ -84,6 +85,7 @@ const Signup = () => {
                     <input
                       type={isVisible ? "text" : "password"}
                       className="form-control"
+                      autoComplete="password"
                       placeholder="Enter Password"
                       value={formData.password}
                       onChange={(e) =>
@@ -97,7 +99,7 @@ const Signup = () => {
                       style={{
                         position: "absolute",
                         right: "20px",
-                        top: "56%",
+                        top: "67%",
                         transform: "translateY(-50%)",
                         border: "none",
                         background: "none",
@@ -106,19 +108,6 @@ const Signup = () => {
                     >
                       {isVisible ? "👁️" : "🙈"}
                     </button>
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Role</label>
-                    <select
-                      className="form-select"
-                      value={formData.role}
-                      onChange={(e) =>
-                        setFormData({ ...formData, role: e.target.value })
-                      }
-                    >
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </select>
                   </div>
                   <div className="d-grid">
                     <button type="submit" className="btn btn-primary">

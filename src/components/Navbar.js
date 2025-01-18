@@ -6,7 +6,7 @@ const Navbar = ({ isAuthenticated, onLogout }) => {
     <nav className="navbar navbar-dark navbar-expand-md bg-dark">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          GO Auth App
+          JokeMaster
         </Link>
         <button
           className="navbar-toggler ml-auto"
