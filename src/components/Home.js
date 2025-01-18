@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FiSmile,
@@ -85,6 +85,8 @@ const Home = () => {
     { label: "Languages", value: "2", icon: <FiStar /> },
   ];
 
+  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -93,7 +95,7 @@ const Home = () => {
         });
         const data = await response.json();
         if (response.ok) {
-          console.log(data);
+          setUserData(data);
         } else {
           console.log(data.error);
         }
@@ -173,7 +175,7 @@ const Home = () => {
                 <div key={index} className="col-md-4 col-lg-4">
                   <div className="card h-100 border-0 shadow-sm hover-zoom">
                     <div className="card-body">
-                      <div className="d-flex justify-content-between align-items-center">
+                      <div className="d-flex justify-content-center align-items-center">
                         <span className="display-5 me-3">{category.icon}</span>
                         <div>
                           <h3 className="h5 mb-1">{category.name}</h3>
@@ -236,14 +238,23 @@ const Home = () => {
                   jokes in English and Hindi, and become the ultimate JokeMaster
                   in your circle.
                 </p>
-                <div className="d-flex justify-content-center align-items-center">
+                {userData ? (
+                  <div className="d-flex justify-content-center align-items-center">
+                    <Link
+                      to="/generate-jokes"
+                      className="hover-zoom btn btn-light btn-lg mb-4"
+                    >
+                      Generate Jokes
+                    </Link>
+                  </div>
+                ) : (
                   <Link
-                    to="/generate-jokes"
-                    className="hover-zoom btn btn-light btn-lg mb-4"
+                    to="/login"
+                    className="btn btn-light btn-lg hover-zoom mb-4"
                   >
-                    Generate Jokes
+                    Get Started
                   </Link>
-                </div>
+                )}
               </div>
             </div>
           </div>

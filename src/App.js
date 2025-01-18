@@ -26,8 +26,8 @@ const App = () => {
           credentials: "include",
         });
 
-        if (!response.ok) {
-          setIsAuthenticated(false);
+        if (response.ok) {
+          setIsAuthenticated(true);
         }
       } catch (err) {
         console.error("Auth check failed:", err);
