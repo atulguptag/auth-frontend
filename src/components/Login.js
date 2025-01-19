@@ -36,7 +36,7 @@ const Login = ({ setIsAuthenticated }) => {
       } else if (response.status === 403) {
         toast.warning("Please verify your email address before logging in");
       } else {
-        toast.error("Either Email or Password is Wrong!", data.error);
+        toast.error(data.error || "User not found!");
       }
     } catch (err) {
       toast.error("Failed to connect to server!");
