@@ -289,7 +289,7 @@ const Home = () => {
                     href="https://www.linkedin.com/in/atulguptag/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white text-decoration-none"
+                    className="text-white text-decoration-none hover-zoom"
                   >
                     <i className="bi bi-linkedin"></i>
                   </a>
@@ -297,7 +297,7 @@ const Home = () => {
                     href="https://www.github.com/atulguptag/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white text-decoration-none"
+                    className="text-white text-decoration-none hover-zoom"
                   >
                     <i className="bi bi-github"></i>
                   </a>
@@ -305,7 +305,7 @@ const Home = () => {
                     href="https://www.facebook.com/itsatulguptag/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white text-decoration-none"
+                    className="text-white text-decoration-none hover-zoom"
                   >
                     <i className="bi bi-facebook"></i>
                   </a>
@@ -313,7 +313,7 @@ const Home = () => {
                     href="https://www.instagram.com/itsatulguptag/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white text-decoration-none"
+                    className="text-white text-decoration-none hover-zoom"
                   >
                     <i className="bi bi-instagram"></i>
                   </a>
@@ -321,7 +321,7 @@ const Home = () => {
                     href="https://www.twitter.com/atulgupta_g/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white text-decoration-none"
+                    className="text-white text-decoration-none hover-zoom"
                   >
                     <i className="bi bi-twitter"></i>
                   </a>
