@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext } from "react";
+import "./App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -7,37 +8,14 @@ import ResetPassword from "./components/ResetPassword";
 import LoadingSpinner from "./components/LoadingSpinner";
 import JokeGenerator from "./components/JokeGenerator";
 import VerifyEmail from "./components/VerifyEmail";
-import { toast } from "react-toastify";
+import Profile from "./components/Profile";
+import { AuthContext } from "./context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-
-  const tokenRef = useRef(null);
-
-  // Check authentication status when app loads
-  useEffect(() => {
-    tokenRef.current = localStorage.getItem("token");
-    if (tokenRef.current) {
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      localStorage.removeItem("token");
-      setIsAuthenticated(false);
-      toast.success("Logout Successful!");
-      navigate("/home");
-    } catch (err) {
-      toast.error("Logout failed");
-      console.error("Logout failed:", err);
-    }
-  };
+  const { isAuthenticated, isLoading, token, handleLogout } =
+    useContext(AuthContext);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -47,17 +25,15 @@ const App = () => {
     <>
       <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <Routes>
-        <Route
-          path="/login"
-          element={<Login setIsAuthenticated={setIsAuthenticated} />}
-        />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/home" element={<Home />} />
         <Route path="/verify" element={<VerifyEmail />} />
+        <Route path="/profile" element={<Profile token={token} />} />
         <Route
           path="/generate-jokes"
-          element={<JokeGenerator token={tokenRef.current} />}
+          element={<JokeGenerator token={token} />}
         />
         <Route path="/" element={<Navigate to="/home" />} />
       </Routes>

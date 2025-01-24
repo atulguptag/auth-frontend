@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import PageTitle from "./PageTitle";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { appConfig } from "./config";
+import { AuthContext } from "../context/AuthContext";
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = () => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isVisible, setIsVisible] = useState(false);
 
@@ -15,6 +16,8 @@ const Login = ({ setIsAuthenticated }) => {
   });
   const navigate = useNavigate();
 
+  const { handleLogin } = useContext(AuthContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -23,15 +26,14 @@ const Login = ({ setIsAuthenticated }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.access_token);
-        setIsAuthenticated(true);
+        const token = data.access_token;
+        handleLogin(token);
         toast.success("Login Successful!");
         navigate("/home");
       } else if (response.status === 403) {
@@ -41,6 +43,7 @@ const Login = ({ setIsAuthenticated }) => {
       }
     } catch (err) {
       toast.error("Failed to connect to server!");
+      console.error("Login Error:", err);
     }
   };
 
