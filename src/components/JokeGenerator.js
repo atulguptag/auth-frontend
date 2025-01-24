@@ -12,6 +12,7 @@ const JokeGenerator = ({ token }) => {
   const [inputText, setInputText] = useState("");
   const [jokes, setJokes] = useState({ english: [], hindi: [] });
   const [loading, setLoading] = useState(false);
+  const [remainingGenerations, setRemainingGenerations] = useState(3);
 
   const navigate = useNavigate();
 
@@ -40,12 +41,17 @@ const JokeGenerator = ({ token }) => {
     setLoading(true);
 
     try {
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (token && token !== "null" && token !== "undefined") {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+
       const response = await fetch(`${apiBaseUrl}/generate-jokes`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: headers,
         credentials: "include",
         body: JSON.stringify({ prompt: inputText }),
       });
@@ -55,15 +61,25 @@ const JokeGenerator = ({ token }) => {
       if (response.ok) {
         toast.success("Joke generated successfully!");
         setJokes(data);
-      } else if (response.status === 401) {
-        toast.error("Unathorized! Please login to use this service.");
-        navigate("/login");
+        if (data.remaining_generations !== undefined) {
+          setRemainingGenerations(data.remaining_generations);
+        }
+      } else if (response.status === 401 || response.status === 403) {
+        if (data.remaining_generations !== undefined) {
+          setRemainingGenerations(data.remaining_generations);
+        }
+        if (data.remaining_generations === 0) {
+          toast.error(
+            "You've reached the maximum number of free generations. Please sign up to continue."
+          );
+          navigate("/login");
+        }
       } else {
         toast.error("Failed to generate jokes!", data.error);
       }
     } catch (err) {
       toast.error("Failed to connect to server! Try again later.");
-      console.error(err);
+      console.error("Full error", err);
     } finally {
       setLoading(false);
     }
@@ -97,6 +113,12 @@ const JokeGenerator = ({ token }) => {
                     ✨Generate Your favorite Jokes With Our AI-powered
                     JokeGenerator✨
                   </h3>
+                  {!token && (
+                    <div className="alert alert-info">
+                      You have {remainingGenerations} free generations. Sign up
+                      to unlock unlimited joke generation!
+                    </div>
+                  )}
 
                   <form onSubmit={handleSubmit}>
                     <div className="mb-3">
