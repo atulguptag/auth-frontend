@@ -13,6 +13,39 @@ import { toast } from "react-toastify";
 
 const Home = () => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found");
+          return;
+        }
+
+        const response = await fetch(`${apiBaseUrl}/home`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setUserData(data);
+        } else {
+          toast.error(data.error || "Unauthorized access");
+        }
+      } catch (err) {
+        toast.error("Failed to fetch user data!");
+        console.error(err);
+      }
+    };
+
+    fetchUserData();
+  }, [apiBaseUrl]);
+
   const featuredJokes = [
     {
       text: "Why don't scientists trust atoms? Because they make up everything!",
@@ -84,29 +117,6 @@ const Home = () => {
     { label: "Daily Users", value: "500+", icon: <FiTrendingUp /> },
     { label: "Languages", value: "2", icon: <FiStar /> },
   ];
-
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`${apiBaseUrl}/home`, {
-          credentials: "include",
-        });
-        const data = await response.json();
-        if (response.ok) {
-          setUserData(data);
-        } else {
-          console.log(data.error);
-        }
-      } catch (err) {
-        toast.error("Failed to fetch user data!");
-        console.log(err);
-      }
-    };
-
-    fetchUserData();
-  }, [apiBaseUrl]);
 
   return (
     <>
