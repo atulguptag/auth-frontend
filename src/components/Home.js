@@ -346,17 +346,6 @@ const Home = () => {
             </div>
           </div>
         </footer>
-
-        <style>
-          {`
-          .hover-zoom {
-            transition: transform 0.2s;
-          }
-          .hover-zoom:hover {
-            transform: scale(1.02);
-          }
-        `}
-        </style>
       </div>
     </>
   );
