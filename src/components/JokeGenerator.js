@@ -66,7 +66,6 @@ const JokeGenerator = ({ token }) => {
       const response = await fetch(`${apiBaseUrl}/generate-jokes`, {
         method: "POST",
         headers: headers,
-        credentials: "include",
         body: JSON.stringify({ prompt: inputText }),
       });
 
@@ -102,7 +101,7 @@ const JokeGenerator = ({ token }) => {
   const renderJokeBox = (joke, index) => (
     <div
       key={index}
-      className="joke-box p-3 mb-3 bg-white rounded shadow-sm position-relative"
+      className="joke-box p-3 mb-3 bg-white rounded shadow-sm position-relative hover-zoom"
     >
       <p className="mb-0">{joke}</p>
       <button
@@ -150,14 +149,14 @@ const JokeGenerator = ({ token }) => {
                     <div className="d-flex justify-content-center">
                       <button
                         type="submit"
-                        className="col-md-6 btn btn-primary me-2"
+                        className="col-md-6 btn btn-primary me-2 hover-zoom"
                         disabled={loading}
                       >
                         {loading ? <LoadingSpinner /> : "Generate Jokes"}
                       </button>
                       <button
                         type="button"
-                        className="col-md-6 btn btn-secondary"
+                        className="col-md-6 btn btn-secondary hover-zoom"
                         onClick={() => {
                           setInputText("");
                           setJokes({ english: [], hindi: [] });
