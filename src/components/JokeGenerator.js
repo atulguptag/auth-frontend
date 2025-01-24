@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiCopy } from "react-icons/fi";
 import { toast } from "react-toastify";
@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LoadingSpinner from "./LoadingSpinner";
 import PageTitle from "./PageTitle";
 import { appConfig } from "./config";
+import { v4 as uuidv4 } from "uuid";
 
 const JokeGenerator = ({ token }) => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
@@ -13,8 +14,20 @@ const JokeGenerator = ({ token }) => {
   const [jokes, setJokes] = useState({ english: [], hindi: [] });
   const [loading, setLoading] = useState(false);
   const [remainingGenerations, setRemainingGenerations] = useState(3);
+  const [anonymousId, setAnonymousId] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let storedUuid = localStorage.getItem("anonymous_id");
+
+    if (!storedUuid) {
+      storedUuid = uuidv4();
+      localStorage.setItem("anonymous_id", storedUuid);
+    }
+
+    setAnonymousId(storedUuid);
+  }, []);
 
   const validateInput = (text) => {
     const wordCount = text.trim().split(/\s+/).length;
@@ -43,6 +56,7 @@ const JokeGenerator = ({ token }) => {
     try {
       const headers = {
         "Content-Type": "application/json",
+        "X-Anonymous-Id": anonymousId,
       };
 
       if (token && token !== "null" && token !== "undefined") {
