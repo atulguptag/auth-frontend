@@ -7,7 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import PageTitle from "./PageTitle";
 import { appConfig } from "./config";
 
-const JokeGenerator = () => {
+const JokeGenerator = ({ token }) => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [inputText, setInputText] = useState("");
   const [jokes, setJokes] = useState({ english: [], hindi: [] });
@@ -44,6 +44,7 @@ const JokeGenerator = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         credentials: "include",
         body: JSON.stringify({ prompt: inputText }),
