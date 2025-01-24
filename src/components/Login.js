@@ -30,6 +30,7 @@ const Login = ({ setIsAuthenticated }) => {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("token", data.access_token);
         setIsAuthenticated(true);
         toast.success("Login Successful!");
         navigate("/home");
