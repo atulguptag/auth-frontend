@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -7,48 +7,34 @@ import ResetPassword from "./components/ResetPassword";
 import LoadingSpinner from "./components/LoadingSpinner";
 import JokeGenerator from "./components/JokeGenerator";
 import VerifyEmail from "./components/VerifyEmail";
-import { appConfig } from "./components/config";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 
 const App = () => {
-  const apiBaseUrl = `${appConfig.baseApiUrl}`;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  const tokenRef = useRef(null);
+
   // Check authentication status when app loads
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch(`${apiBaseUrl}/home`, {
-          credentials: "include",
-        });
-
-        if (response.ok) {
-          setIsAuthenticated(true);
-        }
-      } catch (err) {
-        console.error("Auth check failed:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, [apiBaseUrl]);
+    tokenRef.current = localStorage.getItem("token");
+    if (tokenRef.current) {
+      setIsAuthenticated(true);
+    }
+    setIsLoading(false);
+  }, []);
 
   const handleLogout = async () => {
     try {
-      await fetch(`${apiBaseUrl}/logout`, {
-        credentials: "include",
-      });
+      localStorage.removeItem("token");
       setIsAuthenticated(false);
       toast.success("Logout Successful!");
       navigate("/home");
     } catch (err) {
-      toast.error("Logout failed:");
+      toast.error("Logout failed");
       console.error("Logout failed:", err);
     }
   };
@@ -69,7 +55,10 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/home" element={<Home />} />
         <Route path="/verify" element={<VerifyEmail />} />
-        <Route path="/generate-jokes" element={<JokeGenerator />} />
+        <Route
+          path="/generate-jokes"
+          element={<JokeGenerator token={tokenRef.current} />}
+        />
         <Route path="/" element={<Navigate to="/home" />} />
       </Routes>
     </>
