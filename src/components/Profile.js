@@ -6,7 +6,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [prompts, setPrompts] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
@@ -27,15 +27,14 @@ const Profile = () => {
           headers: headers,
         });
 
-        console.log("Response Data", response);
         if (response.ok) {
           const data = await response.json();
-          console.log("Json response", data);
           setPrompts(data);
         } else {
           toast.error("Unable to load prompts");
         }
       } catch (error) {
+        toast.error("An error occurred while fetching prompts.");
         console.error("Fetch error:", error);
       } finally {
         setLoading(false);
@@ -61,6 +60,7 @@ const Profile = () => {
 
   return (
     <Container className="my-5">
+      <h6 className="text-start mb-4">Welcome, {user?.email}</h6>
       <h2 className="text-center mb-4">Your Prompt History</h2>
       {prompts.length === 0 ? (
         <div className="text-center">

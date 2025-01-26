@@ -47,6 +47,10 @@ const Login = () => {
     }
   };
 
+  const handleGoogleLogin = () => {
+    window.location.href = `${apiBaseUrl}/auth/google`;
+  };
+
   return (
     <>
       <PageTitle title="Login" />
@@ -90,7 +94,7 @@ const Login = () => {
                       style={{
                         position: "absolute",
                         right: "20px",
-                        top: "53%",
+                        top: "42%",
                         transform: "translateY(-50%)",
                         border: "none",
                         background: "none",
@@ -111,6 +115,32 @@ const Login = () => {
                     </button>
                   </div>
                 </form>
+
+                <div className="d-flex align-items-center my-3">
+                  <hr className="flex-grow-1" />
+                  <span className="mx-2">OR</span>
+                  <hr className="flex-grow-1" />
+                </div>
+
+                <div className="d-grid">
+                  <button
+                    type="button"
+                    className="btn btn-dark btn-google"
+                    onClick={handleGoogleLogin}
+                  >
+                    <img
+                      src="/image.png"
+                      alt="Google logo"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        objectFit: "contain",
+                      }}
+                    />
+                    <i className="fab fa-google me-2"></i> Login with Google
+                  </button>
+                </div>
+
                 <p className="mt-3 text-center">
                   Don't have an account?{" "}
                   <Link className="text-decoration-none" to="/signup">
