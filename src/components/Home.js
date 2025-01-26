@@ -19,16 +19,20 @@ const Home = () => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) {
+        const headers = {
+          "Content-Type": "application/json",
+        };
+
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        } else {
           console.error("No token found");
           return;
         }
 
         const response = await fetch(`${apiBaseUrl}/home`, {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: headers,
         });
 
         const data = await response.json();
