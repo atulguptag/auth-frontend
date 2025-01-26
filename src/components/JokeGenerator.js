@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiCopy } from "react-icons/fi";
 import { toast } from "react-toastify";
@@ -7,9 +7,11 @@ import LoadingSpinner from "./LoadingSpinner";
 import PageTitle from "./PageTitle";
 import { appConfig } from "./config";
 import { v4 as uuidv4 } from "uuid";
+import { AuthContext } from "../context/AuthContext";
 
-const JokeGenerator = ({ token }) => {
+const JokeGenerator = () => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
+  const { token } = useContext(AuthContext);
   const [inputText, setInputText] = useState("");
   const [jokes, setJokes] = useState({ english: [], hindi: [] });
   const [loading, setLoading] = useState(false);
