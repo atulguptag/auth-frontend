@@ -21,9 +21,9 @@ const LoadingSpinner = () => {
           style={{ width: "3rem", height: "3rem" }}
           role="status"
         >
-          <span className="visually-hidden">Loading...</span>
+          <span className="visually-hidden">Please wait...</span>
         </div>
-        <div className="text-dark mt-2">Loading...</div>
+        <div className="text-dark mt-2">Please wait...</div>
       </div>
     </div>
   );

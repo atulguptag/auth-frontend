@@ -48,11 +48,6 @@ const VerifyEmail = () => {
     verifyEmail();
   }, [navigate, token, apiBaseUrl]);
 
-  return (
-    <div className="container mt-5">
-      <LoadingSpinner />
-      Verifying email..
-    </div>
-  );
+  return <LoadingSpinner />;
 };
 export default VerifyEmail;
