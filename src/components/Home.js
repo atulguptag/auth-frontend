@@ -502,22 +502,24 @@ const Home = () => {
                     </a>
                   </li>
                   <li className="mb-2">
-                    <a
-                      href="#"
-                      className="text-muted text-decoration-none hover-zoom d-flex align-items-center"
+                    <button
+                      type="button"
+                      className="btn btn-link text-muted text-decoration-none hover-zoom d-flex align-items-center p-0 border-0"
+                      style={{ background: "none" }}
                     >
                       <FiMessageCircle className="me-2" size={14} />
                       Help Center
-                    </a>
+                    </button>
                   </li>
                   <li className="mb-2">
-                    <a
-                      href="#"
-                      className="text-muted text-decoration-none hover-zoom d-flex align-items-center"
+                    <button
+                      type="button"
+                      className="btn btn-link text-muted text-decoration-none hover-zoom d-flex align-items-center p-0 border-0"
+                      style={{ background: "none" }}
                     >
                       <FiShield className="me-2" size={14} />
                       Privacy Policy
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -574,24 +576,27 @@ const Home = () => {
                 </div>
                 <div className="col-md-6 text-md-end">
                   <div className="d-flex justify-content-md-end gap-4 mt-3 mt-md-0">
-                    <a
-                      href="#"
-                      className="text-muted text-decoration-none small hover-zoom"
+                    <button
+                      type="button"
+                      className="btn btn-link text-muted text-decoration-none small hover-zoom p-0 border-0"
+                      style={{ background: "none" }}
                     >
                       Terms of Service
-                    </a>
-                    <a
-                      href="#"
-                      className="text-muted text-decoration-none small hover-zoom"
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-link text-muted text-decoration-none small hover-zoom p-0 border-0"
+                      style={{ background: "none" }}
                     >
                       Privacy Policy
-                    </a>
-                    <a
-                      href="#"
-                      className="text-muted text-decoration-none small hover-zoom"
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-link text-muted text-decoration-none small hover-zoom p-0 border-0"
+                      style={{ background: "none" }}
                     >
                       Cookie Policy
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
