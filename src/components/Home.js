@@ -444,15 +444,6 @@ const Home = () => {
                   </li>
                   <li className="mb-2">
                     <Link
-                      to="/#featured"
-                      className="text-muted text-decoration-none hover-zoom d-flex align-items-center"
-                    >
-                      <FiStar className="me-2" size={14} />
-                      Featured Jokes
-                    </Link>
-                  </li>
-                  <li className="mb-2">
-                    <Link
                       to="/profile"
                       className="text-muted text-decoration-none hover-zoom d-flex align-items-center"
                     >
