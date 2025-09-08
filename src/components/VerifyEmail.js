@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import LoadingSpinner from "./LoadingSpinner";
 import { appConfig } from "./config";
+import PageTitle from "./PageTitle";
+import { FiMail } from "react-icons/fi";
 
 const VerifyEmail = () => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
@@ -18,7 +20,7 @@ const VerifyEmail = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       if (!token) {
-        toast.error("No token provided");
+        toast.error("No verification token provided");
         navigate("/login");
         return;
       }
@@ -36,11 +38,12 @@ const VerifyEmail = () => {
           );
           setTimeout(() => navigate("/login"), 2000);
         } else {
-          toast.error("Failed to verify email", data.error);
+          toast.error(data.error || "Failed to verify email");
           navigate("/login");
         }
       } catch (err) {
-        toast.error("Failed to connect to server", err);
+        toast.error("Failed to connect to server");
+        console.error("Verification error:", err);
         navigate("/login");
       }
     };
@@ -48,6 +51,31 @@ const VerifyEmail = () => {
     verifyEmail();
   }, [navigate, token, apiBaseUrl]);
 
-  return <LoadingSpinner />;
+  return (
+    <>
+      <PageTitle title="Email Verification - JokeMaster" />
+      <div className="min-vh-100 bg-light d-flex align-items-center">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-6 col-md-8">
+              <div className="modern-card p-5 text-center">
+                <div className="mb-4">
+                  <FiMail size={64} className="text-primary mb-3" />
+                  <h2 className="h3 fw-bold text-dark mb-3">
+                    Verifying Your Email
+                  </h2>
+                  <p className="text-muted mb-4">
+                    Please wait while we verify your email address...
+                  </p>
+                </div>
+                <LoadingSpinner size="large" message="Verifying..." />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
+
 export default VerifyEmail;

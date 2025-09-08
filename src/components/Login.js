@@ -5,6 +5,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { appConfig } from "./config";
 import { AuthContext } from "../context/AuthContext";
+import {
+  FiMail,
+  FiLock,
+  FiEye,
+  FiEyeOff,
+  FiLogIn,
+  FiArrowRight,
+} from "react-icons/fi";
 
 const Login = () => {
   const apiBaseUrl = `${appConfig.baseApiUrl}`;
@@ -53,100 +61,141 @@ const Login = () => {
 
   return (
     <>
-      <PageTitle title="Login" />
-      <div className="container mt-5">
-        <div className="row justify-content-center align-items-center">
-          <div className="col-md-5">
-            <div className="card">
-              <div className="card-body">
-                <h3 className="card-title text-center mb-4">Welcome Back!</h3>
+      <PageTitle title="Login - JokeMaster" />
+      <div className="min-vh-100 bg-light d-flex align-items-center py-4">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-5 col-md-7 col-sm-9">
+              <div
+                className="modern-card p-4 p-md-5 mx-auto"
+                style={{ maxWidth: "500px" }}
+              >
+                <div className="text-center mb-4">
+                  <h2 className="h3 fw-bold text-dark mb-3">Welcome Back!</h2>
+                  <p className="text-muted mb-0">
+                    Sign in to continue generating amazing jokes
+                  </p>
+                </div>
+
                 <form onSubmit={handleSubmit}>
                   <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      autoComplete="email"
-                      placeholder="Enter Your Email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      required
-                    />
+                    <label className="form-label fw-semibold text-dark">
+                      Email Address
+                    </label>
+                    <div className="position-relative">
+                      <FiMail
+                        className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"
+                        size={18}
+                      />
+                      <input
+                        type="email"
+                        className="form-control ps-5 py-3 border-2"
+                        autoComplete="email"
+                        placeholder="Enter your email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        required
+                        style={{ borderRadius: "12px" }}
+                      />
+                    </div>
                   </div>
+
                   <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input
-                      type={isVisible ? "text" : "password"}
-                      className="form-control"
-                      autoComplete="password"
-                      placeholder="Enter Your Password"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setIsVisible(!isVisible)}
-                      style={{
-                        position: "absolute",
-                        right: "20px",
-                        top: "42%",
-                        transform: "translateY(-50%)",
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {isVisible ? "👁️" : "🙈"}
-                    </button>
+                    <label className="form-label fw-semibold text-dark">
+                      Password
+                    </label>
+                    <div className="position-relative">
+                      <FiLock
+                        className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"
+                        size={18}
+                      />
+                      <input
+                        type={isVisible ? "text" : "password"}
+                        className="form-control ps-5 pe-5 py-3 border-2"
+                        autoComplete="current-password"
+                        placeholder="Enter your password"
+                        value={formData.password}
+                        onChange={(e) =>
+                          setFormData({ ...formData, password: e.target.value })
+                        }
+                        required
+                        style={{ borderRadius: "12px" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setIsVisible(!isVisible)}
+                        className="position-absolute top-50 end-0 translate-middle-y me-3 btn btn-link p-0 text-muted hover-zoom"
+                        style={{ border: "none", background: "none" }}
+                      >
+                        {isVisible ? (
+                          <FiEyeOff size={18} />
+                        ) : (
+                          <FiEye size={18} />
+                        )}
+                      </button>
+                    </div>
                   </div>
-                  <div className="mt-3 text-end">
-                    <Link className="text-decoration-none" to="/reset-password">
+
+                  <div className="mb-4 text-end">
+                    <Link
+                      className="text-decoration-none text-primary hover-zoom fw-medium small"
+                      to="/reset-password"
+                    >
                       Forgot Password?
                     </Link>
                   </div>
-                  <div className="mt-3 d-grid">
-                    <button type="submit" className="btn btn-primary">
-                      Login
+
+                  <div className="d-grid mb-4">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-modern py-3"
+                    >
+                      <FiLogIn className="me-2" />
+                      Sign In
                     </button>
                   </div>
                 </form>
 
-                <div className="d-flex align-items-center my-3">
-                  <hr className="flex-grow-1" />
-                  <span className="mx-2">OR</span>
-                  <hr className="flex-grow-1" />
+                <div className="position-relative mb-4">
+                  <hr className="border-secondary-subtle" />
+                  <span className="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">
+                    OR
+                  </span>
                 </div>
 
-                <div className="d-grid">
+                <div className="d-grid mb-4">
                   <button
                     type="button"
-                    className="btn btn-dark btn-google"
+                    className="btn btn-outline-dark btn-modern py-3 hover-zoom"
                     onClick={handleGoogleLogin}
                   >
                     <img
                       src="/image.png"
                       alt="Google logo"
+                      className="me-2"
                       style={{
                         width: "20px",
                         height: "20px",
                         objectFit: "contain",
                       }}
                     />
-                    <i className="fab fa-google me-2"></i> Login with Google
+                    Continue with Google
                   </button>
                 </div>
 
-                <p className="mt-3 text-center">
-                  Don't have an account?{" "}
-                  <Link className="text-decoration-none" to="/signup">
-                    Sign Up.
-                  </Link>
-                </p>
+                <div className="text-center">
+                  <p className="text-muted mb-0 small">
+                    Don't have an account?{" "}
+                    <Link
+                      className="text-decoration-none text-primary hover-zoom fw-semibold"
+                      to="/signup"
+                    >
+                      Sign up here <FiArrowRight className="ms-1" size={14} />
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
